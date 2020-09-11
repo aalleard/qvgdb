@@ -1,0 +1,124 @@
+<div class="container-fluid">
+	<div class="row vh-100">
+		<div id="main" class="col-8 p-0">
+			<div *ngIf="!bShowEarning" id="main-question">
+				<div class="row mx-0">
+					<div class="w-100 text-container question-container">
+						<div class="background-line"></div>
+						<div class="triangle left"><div class="triangle inner-triangle left"></div></div>
+						<div class="text-wrapper">
+							{{ oQuestion?.question }}
+						</div>
+						<div class="triangle right"><div class="triangle inner-triangle right"></div></div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="w-50 text-container answer-container" [ngClass]="getAnswerClass('A')" (click)="onClickAnswer('A')">
+						<div class="background-line"></div>
+						<div class="triangle left"><div class="triangle inner-triangle left"></div></div>
+						<div class="text-wrapper">
+							<div class="letter">A:</div>
+							<div class="answer">{{ oQuestion?.reponseA }}</div>
+						</div>
+						<div class="triangle right"><div class="triangle inner-triangle right"></div></div>
+					</div>
+					<div class="w-50 text-container answer-container" [ngClass]="getAnswerClass('B')" (click)="onClickAnswer('B')">
+						<div class="background-line"></div>
+						<div class="triangle left"><div class="triangle inner-triangle left"></div></div>
+						<div class="text-wrapper">
+							<div class="letter">B:</div>
+							<div class="answer">{{ oQuestion?.reponseB }}</div>
+						</div>
+						<div class="triangle right"><div class="triangle inner-triangle right"></div></div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="w-50 text-container answer-container" [ngClass]="getAnswerClass('C')" (click)="onClickAnswer('C')">
+						<div class="background-line"></div>
+						<div class="triangle left"><div class="triangle inner-triangle left"></div></div>
+						<div class="text-wrapper">
+							<div class="letter">C:</div>
+							<div class="answer">{{ oQuestion?.reponseC }}</div>
+						</div>
+						<div class="triangle right"><div class="triangle inner-triangle right"></div></div>
+					</div>
+					<div class="w-50 text-container answer-container" [ngClass]="getAnswerClass('D')" (click)="onClickAnswer('D')">
+						<div class="background-line"></div>
+						<div class="triangle left"><div class="triangle inner-triangle left"></div></div>
+						<div class="text-wrapper">
+							<div class="letter">D:</div>
+							<div class="answer">{{ oQuestion?.reponseD }}</div>
+						</div>
+						<div class="triangle right"><div class="triangle inner-triangle right"></div></div>
+					</div>
+				</div>
+			</div>
+			<div *ngIf="bShowEarning" id="main-earning">
+				<div class="row mx-0">
+					<div class="w-100 text-container earning-container">
+						<div class="background-line"></div>
+						<div class="triangle left"><div class="triangle inner-triangle left"></div></div>
+						<div class="text-wrapper">
+							{{ sEarning }}
+						</div>
+						<div class="triangle right"><div class="triangle inner-triangle right"></div></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="side" class="col-4 p-0">
+			<div class="row jokers m-0">
+				<div class="col-4">
+					<div class="joker" [ngClass]="{'used': bJoker1}" (click)="onClick5050()">
+						50:50
+					</div>
+				</div>
+				<div class="col-4">
+					<div class="joker" [ngClass]="{'used': bJoker2}">
+						Appel
+					</div>
+				</div>
+				<div class="col-4">
+					<div class="joker" [ngClass]="{'used': bJoker3}" (click)="onClickPublic()">
+						Public
+					</div>
+				</div>
+			</div>
+			<div *ngIf="!bShowPublic" class="d-flex flex-column-reverse align-items-start justify-content-start pyramid">
+				<div *ngFor="let oEarning of aEarnings; index as i" [ngClass]="getEarningClass(i)"
+					class="w-100 d-flex justify-content-between earning-line-wrapper">
+					<div class="number">{{ oEarning.number }}</div>
+					<div class="amount">{{ oEarning.earning }} bonbons</div>
+				</div>
+			</div>
+			<div *ngIf="bShowPublic" class="public-container w-100 d-flex flex-column">
+				<div class="row m-0">
+					<div class="col-3 d-flex justify-content-center">{{ oQuestion?.publicA }}%</div>
+					<div class="col-3 d-flex justify-content-center">{{ oQuestion?.publicB }}%</div>
+					<div class="col-3 d-flex justify-content-center">{{ oQuestion?.publicC }}%</div>
+					<div class="col-3 d-flex justify-content-center">{{ oQuestion?.publicD }}%</div>
+				</div>
+				<div class="row m-0 flex-grow-1 bars-container">
+					<div class="col-3 d-flex align-items-end justify-content-center">
+						<div class="bar" [style.height.%]="oQuestion?.publicA"></div>
+					</div>
+					<div class="col-3 d-flex align-items-end justify-content-center">
+						<div class="bar" [style.height.%]="oQuestion?.publicB"></div>
+					</div>
+					<div class="col-3 d-flex align-items-end justify-content-center">
+						<div class="bar" [style.height.%]="oQuestion?.publicC"></div>
+					</div>
+					<div class="col-3 d-flex align-items-end justify-content-center">
+						<div class="bar" [style.height.%]="oQuestion?.publicD"></div>
+					</div>
+				</div>
+				<div class="row m-0">
+					<div class="col-3 d-flex justify-content-center">A</div>
+					<div class="col-3 d-flex justify-content-center">B</div>
+					<div class="col-3 d-flex justify-content-center">C</div>
+					<div class="col-3 d-flex justify-content-center">D</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
