@@ -83,10 +83,7 @@ export class HomePage implements OnInit, OnDestroy {
 
 	private _endGame(): void {
 		this.bShowEarning = true;
-		let fCallback = (function() {
-			this.appService.playSound('end_theme');
-		}).bind(this);
-		this.appService.playSound('end_jingle', fCallback);
+		this.appService.playSound('end_jingle');
 	}
 
 	public getAnswerClass(sAnswer: string): string {
@@ -148,6 +145,10 @@ export class HomePage implements OnInit, OnDestroy {
 		} 
 		if (sCharCode === 'd') {
 			this._selectAnswer('D');
+			oEvent.preventDefault();
+		} 
+		if (sCharCode === 'g') {
+			this.appService.playSound('end_theme');
 			oEvent.preventDefault();
 		} 
 		if (sCharCode === '1') {
