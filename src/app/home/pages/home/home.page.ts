@@ -3,6 +3,7 @@ import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { QuestionService } from '@app/@core/services/question/question.service';
 import { Question } from '@app/@shared/models/question';
 import { AppService } from '@app/@core/services/app.service';
+import { Router } from '@angular/router';
 
 
 export interface IEarning {
@@ -28,10 +29,11 @@ export class HomePage implements OnInit, OnDestroy {
 	private _aFibonacci: number[] = [1, 2, 5, 10, 20, 50, 100, 200]
 	private _aQuestions: Question[] = [];
 	private _bCorrectAnswer: boolean = false;
+	private _bQuit: boolean = false;
 	private _iCorrect: number = 0;
 	private _oQuestion: Question = null;
 	
-	constructor(private appService: AppService, private questionService: QuestionService) {}
+	constructor(private oRouter: Router, private appService: AppService, private questionService: QuestionService) {}
 
 	ngOnInit() {
 		this.questionService.fetchQuestions$()
@@ -43,7 +45,9 @@ export class HomePage implements OnInit, OnDestroy {
 	}
 
 	ngOnDestroy() {
-		this.appService.pauseAllSounds();
+		if (!this._bQuit) {
+			this.appService.pauseAllSounds();
+		}
 	}
 
 	private _5050(): void {
@@ -148,7 +152,7 @@ export class HomePage implements OnInit, OnDestroy {
 			oEvent.preventDefault();
 		} 
 		if (sCharCode === 'g') {
-			this.appService.playSound('end_theme');
+			this._quitGame();
 			oEvent.preventDefault();
 		} 
 		if (sCharCode === '1') {
@@ -280,6 +284,13 @@ export class HomePage implements OnInit, OnDestroy {
 			this.bShowPublic = true;
 		}, 32000);
 		this.bJoker3 = true;
+	}
+
+	private _quitGame() {
+		this._bQuit = true;
+		this.appService.pauseAllSounds();
+		this.appService.playSound('end_theme');
+		this.oRouter.navigate(['splash']);
 	}
 
 	public get sEarning(): string {
