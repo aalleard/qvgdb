@@ -155,6 +155,7 @@ export class HomePage implements OnInit, OnDestroy {
 			oEvent.preventDefault();
 		} 
 		if (sCharCode === '2') {
+			this._phoneAFriend();
 			oEvent.preventDefault();
 		} 
 		if (sCharCode === '3') {
@@ -217,6 +218,12 @@ export class HomePage implements OnInit, OnDestroy {
 		this._nextQuestion();
 	}
 
+	public onClickPhone(): void {
+		if (!this.bJoker2) {
+			this._phoneAFriend();
+		}
+	}
+
 	public onClickPublic(): void {
 		if (!this.bJoker3) {
 			this._publicVote();
@@ -247,6 +254,17 @@ export class HomePage implements OnInit, OnDestroy {
 
 	public set oQuestion(oQuestion: Question) {
 		this._oQuestion = oQuestion;
+	}
+
+	private _phoneAFriend(): void {
+		this.appService.pauseSound(this.oQuestion.musique);
+		let fCallback = (function () {
+			setTimeout(() => {
+				this.appService.resumeSound(this.oQuestion.musique);
+			}, 500);
+		}).bind(this);
+		this.appService.playSound('telephone', fCallback);
+		this.bJoker2 = true;
 	}
 
 	private _publicVote(): void {

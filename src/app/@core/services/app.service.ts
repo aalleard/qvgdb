@@ -26,6 +26,7 @@ export class AppService {
 		'main_theme': null,
 		'phone_a_friend': null,
 		'public_vote': null,
+		'telephone': null,
 		'wrong_answer': null,
 	}
 
