@@ -25,7 +25,7 @@ export class HomePage implements OnInit, OnDestroy {
 	public sSelectedAnswer: string = null
 
 	private _aEarnings: IEarning[] = [];
-	private _aFibonacci: number[] = [1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987]
+	private _aFibonacci: number[] = [1, 2, 5, 10, 20, 50, 100, 200]
 	private _aQuestions: Question[] = [];
 	private _bCorrectAnswer: boolean = false;
 	private _iCorrect: number = 0;
@@ -74,7 +74,7 @@ export class HomePage implements OnInit, OnDestroy {
 		this._aEarnings = [];
 		for (let i=0; i<this._aQuestions.length; i++) {
 			let oEarning: IEarning = {
-				earning: this._aFibonacci[i] * 5,
+				earning: this._aFibonacci[i],
 				number: i+1
 			}
 			this._aEarnings.push(oEarning);
@@ -283,7 +283,6 @@ export class HomePage implements OnInit, OnDestroy {
 
 	public get sEarning(): string {
 		let iEarning = !!this._aFibonacci[this._iCorrect - 1] ? this._aFibonacci[this._iCorrect - 1] : 0;
-		iEarning *= 5;
 		let sLabel = iEarning > 1 ? " bonbons" : " bonbon";
 
 		return iEarning.toString() + sLabel;

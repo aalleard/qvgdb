@@ -88,7 +88,7 @@
 				<div *ngFor="let oEarning of aEarnings; index as i" [ngClass]="getEarningClass(i)"
 					class="w-100 d-flex justify-content-between earning-line-wrapper">
 					<div class="number">{{ oEarning.number }}</div>
-					<div class="amount">{{ oEarning.earning }} bonbons</div>
+					<div class="amount">{{ oEarning.earning }} {{ oEarning.earning > 1 ? 'bonbons' : 'bonbon' }}</div>
 				</div>
 			</div>
 			<div *ngIf="bShowPublic" class="public-container w-100 d-flex flex-column">
