@@ -5,6 +5,7 @@ export class Question extends ModelBase {
   private _appelReponse: string;
   private _cinquanteCinquante: string;
   private _dernierMot: boolean;
+  private _gain: string;
   private _musique: string;
   private _publicA: string;
   private _publicB: string;
@@ -64,6 +65,9 @@ export class Question extends ModelBase {
   public get dernierMot(): boolean {
     return this._dernierMot;
   }
+  public get gain(): string {
+    return this._gain;
+  }
   public get musique(): string {
     return this._musique;
   }
@@ -113,6 +117,9 @@ export class Question extends ModelBase {
   }
   public set dernierMot(dernierMot: boolean) {
     this._dernierMot = this._toBoolean(dernierMot);
+  }
+  public set gain(gain: string) {
+    this._gain = gain;
   }
   public set musique(musique: string) {
     this._musique = musique;

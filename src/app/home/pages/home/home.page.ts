@@ -6,7 +6,7 @@ import { AppService } from '@app/@core/services/app.service';
 import { Router } from '@angular/router';
 
 export interface IEarning {
-  earning: number;
+  earning: string;
   number: number;
 }
 
@@ -25,7 +25,6 @@ export class HomePage implements OnInit, OnDestroy {
   public sSelectedAnswer: string = null;
 
   private _aEarnings: IEarning[] = [];
-  private _aFibonacci: number[] = [1, 2, 5, 10, 20, 50, 100, 200];
   private _aQuestions: Question[] = [];
   private _bCorrectAnswer: boolean = false;
   private _bQuit: boolean = false;
@@ -76,7 +75,7 @@ export class HomePage implements OnInit, OnDestroy {
     this._aEarnings = [];
     for (let i = 0; i < this._aQuestions.length; i++) {
       let oEarning: IEarning = {
-        earning: this._aFibonacci[i],
+        earning: this._aQuestions[i].gain,
         number: i + 1,
       };
       this._aEarnings.push(oEarning);
@@ -291,10 +290,9 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   public get sEarning(): string {
-    let iEarning = !!this._aFibonacci[this._iCorrect - 1] ? this._aFibonacci[this._iCorrect - 1] : 0;
-    let sLabel = iEarning > 1 ? ' bonbons' : ' bonbon';
+    let sEarning = !!this._aEarnings[this._iCorrect - 1] ? this._aEarnings[this._iCorrect - 1].earning : 'Aucun gain';
 
-    return iEarning.toString() + sLabel;
+    return sEarning;
   }
 
   private _selectAnswer(sAnswer: string): void {
