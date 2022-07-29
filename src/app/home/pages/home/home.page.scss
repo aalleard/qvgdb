@@ -1,293 +1,292 @@
 $dark-blue: rgb(10, 0, 56);
 
 @mixin cross-bar($revert) {
-	$rotation: 25deg;
+  $rotation: 25deg;
 
-	@if $revert {
-		$rotation: -25deg;
-	}
+  @if $revert {
+    $rotation: -25deg;
+  }
 
-	content: "";
-    background-color: red;
-    height: 8px;
-    width: 90%;
-    position: absolute;
-    transform: rotate($rotation);
+  content: "";
+  background-color: red;
+  height: 8px;
+  width: 90%;
+  position: absolute;
+  transform: rotate($rotation);
 }
 
 @mixin triangle($size) {
-	height: 0;
-	width: 0;
-	position: relative;
-	z-index: 1;
+  height: 0;
+  width: 0;
+  position: relative;
+  z-index: 1;
 
-	$height: 16px !default;
-	$width: 25px !default;
+  $height: 16px !default;
+  $width: 25px !default;
 
-	@if $size == 'small' {
-		$height: 32px;
-		$width: 50px;
-	} @else if $size == 'medium' {
-		$height: 48px;
-		$width: 75px;
-	} @else {
-		$height: 48px;
-		$width: 75px;
-	}
+  @if $size == "small" {
+    $height: 32px;
+    $width: 50px;
+  } @else if $size == "medium" {
+    $height: 48px;
+    $width: 75px;
+  } @else {
+    $height: 48px;
+    $width: 75px;
+  }
 
-	border-top: $height solid transparent;
-	border-bottom: $height solid transparent;
+  border-top: $height solid transparent;
+  border-bottom: $height solid transparent;
 
-	&.left {
-		border-right: $width solid white;
-	}
+  &.left {
+    border-right: $width solid white;
+  }
 
-	&.right {
-		border-left: $width solid white;
-	}
+  &.right {
+    border-left: $width solid white;
+  }
 
-	&.inner-triangle {
-		position: absolute;
-		top: calc(#{$height} * -1 + 2px);
-		border-top-width: calc(#{$height} - 2px);
-		border-bottom-width: calc(#{$height} - 2px);
-		
-		&.left {
-			right: -$width;
-			border-right: calc(#{$width} - 4px) solid $dark-blue;
-		}
+  &.inner-triangle {
+    position: absolute;
+    top: calc(#{$height} * -1 + 2px);
+    border-top-width: calc(#{$height} - 2px);
+    border-bottom-width: calc(#{$height} - 2px);
 
-		&.right {
-			left: -$width;
-			border-left: calc(#{$width} - 4px) solid $dark-blue;
-		}
-	}
+    &.left {
+      right: -$width;
+      border-right: calc(#{$width} - 4px) solid $dark-blue;
+    }
+
+    &.right {
+      left: -$width;
+      border-left: calc(#{$width} - 4px) solid $dark-blue;
+    }
+  }
 }
 
 #main {
-	position: relative;
-	color: white;
-	
-	background: center / 100vh no-repeat url("../../../../assets/images/logo.png") black;
-	background-position: center top 15%;
+  position: relative;
+  color: white;
 
-	#main-question {
-		position: absolute;
-		bottom: 0;
+  background: center / 100vh no-repeat url("../../../../assets/images/logo.png") black;
+  background-position: center top 15%;
 
-		width: 100%;
+  #main-question {
+    position: absolute;
+    bottom: 0;
 
-		.row {
-			margin-bottom: 16px;
-		}
-	}
+    width: 100%;
 
-	#main-earning {
-		position: absolute;
-		bottom: 48px;
-		width: 100%;
-	}
+    .row {
+      margin-bottom: 16px;
+    }
+  }
+
+  #main-earning {
+    position: absolute;
+    bottom: 48px;
+    width: 100%;
+  }
 }
 
 .background-line {
-	position: absolute;
-	top: calc(50% - 1px);
-	width: 100%;
-	border: solid 1px white;
+  position: absolute;
+  top: calc(50% - 1px);
+  width: 100%;
+  border: solid 1px white;
 }
 
 .text-container {
-	position: relative;
-	display: flex;
-	align-items: center;
-	justify-content: center;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-	&.question-container {
-		height: 96px;
-		font-size: 24px;
+  &.question-container {
+    height: 96px;
+    font-size: 24px;
 
-		.triangle {
-			@include triangle('medium');
-		}
+    .triangle {
+      @include triangle("medium");
+    }
 
-		.text-wrapper {
-			width: 65%;
-			justify-content: center;
-		}
-	}
+    .text-wrapper {
+      width: 65%;
+      justify-content: center;
+    }
+  }
 
-	&.earning-container {
-		height: 96px;
-		font-size: 32px;
-		color: orange;
+  &.earning-container {
+    height: 96px;
+    font-size: 32px;
+    color: orange;
 
-		.triangle {
-			@include triangle('large');
-		}
+    .triangle {
+      @include triangle("large");
+    }
 
-		.text-wrapper {
-			width: 65%;
-			justify-content: center;
-		}
-	}
+    .text-wrapper {
+      width: 65%;
+      justify-content: center;
+    }
+  }
 
-	&.answer-container {
-		height: 64px;
-		font-size: 18px;
+  &.answer-container {
+    height: 64px;
+    font-size: 18px;
 
-		.triangle {
-			@include triangle('small');
-		}
+    .triangle {
+      @include triangle("small");
+    }
 
-		.text-wrapper {
-			width: 58%;
-			justify-content: flex-start;
-		}
+    .text-wrapper {
+      width: 58%;
+      justify-content: flex-start;
+    }
 
-		&:first-child {
-			justify-content: flex-end;
-			padding-right: 8px;
+    &:first-child {
+      justify-content: flex-end;
+      padding-right: 8px;
 
-			.background-line {
-				margin-right: -8px;
-			}
-		}
+      .background-line {
+        margin-right: -8px;
+      }
+    }
 
-		&:last-child {
-			justify-content: flex-start;
-			padding-left: 8px;
+    &:last-child {
+      justify-content: flex-start;
+      padding-left: 8px;
 
-			.background-line {
-				margin-left: -8px;
-			}
-		}
-	}
+      .background-line {
+        margin-left: -8px;
+      }
+    }
+  }
 
-	.text-wrapper {
-		height: 100%;
-		display: flex;
-		align-items: center;
-		background-color: $dark-blue;
-		border-top: solid 2px white;
-		border-bottom: solid 2px white;
-		z-index: 1;
-	}
+  .text-wrapper {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    background-color: $dark-blue;
+    border-top: solid 2px white;
+    border-bottom: solid 2px white;
+    z-index: 1;
+  }
 
-	.letter {
-		color: orange;
-		margin-right: 8px;
-	}
+  .letter {
+    color: orange;
+    margin-right: 8px;
+  }
 
-	&.correct {
-		.text-wrapper {
-			color: black;
-			background-color: lime;
-		}
+  &.correct {
+    .text-wrapper {
+      color: black;
+      background-color: lime;
+    }
 
-		.triangle.inner-triangle.left,
-		.triangle.inner-triangle.right {
-			border-left-color: lime;
-			border-right-color: lime;
-		}
+    .triangle.inner-triangle.left,
+    .triangle.inner-triangle.right {
+      border-left-color: lime;
+      border-right-color: lime;
+    }
 
-		.letter {
-			color: black
-		}
-	}
+    .letter {
+      color: black;
+    }
+  }
 
-	&.incorrect {
-		.text-wrapper {
-			background-color: red;
-		}
+  &.incorrect {
+    .text-wrapper {
+      background-color: red;
+    }
 
-		.triangle.inner-triangle.left,
-		.triangle.inner-triangle.right {
-			border-left-color: red;
-			border-right-color: red;
-		}
+    .triangle.inner-triangle.left,
+    .triangle.inner-triangle.right {
+      border-left-color: red;
+      border-right-color: red;
+    }
 
-		.letter {
-			color: white
-		}
-	}
+    .letter {
+      color: white;
+    }
+  }
 
-	&.selected {
-		.text-wrapper {
-			color: black;
-			background-color: orange;
-		}
+  &.selected {
+    .text-wrapper {
+      color: black;
+      background-color: orange;
+    }
 
-		.triangle.inner-triangle.left,
-		.triangle.inner-triangle.right {
-			border-left-color: orange;
-			border-right-color: orange;
-		}
+    .triangle.inner-triangle.left,
+    .triangle.inner-triangle.right {
+      border-left-color: orange;
+      border-right-color: orange;
+    }
 
-		.letter {
-			color: black
-		}
-	}
-
+    .letter {
+      color: black;
+    }
+  }
 }
 
 #side {
-	color: white;
-	background-color: $dark-blue;
-	border-left: solid 2px white;
+  color: white;
+  background-color: $dark-blue;
+  border-left: solid 2px white;
 
-	.jokers {
-		height: 160px;
-		padding: 16px 0;
+  .jokers {
+    height: 160px;
+    padding: 16px 0;
 
-		.col-4 {
-			display: flex;
-			align-items: center;
-		}
-	}
+    .col-4 {
+      display: flex;
+      align-items: center;
+    }
+  }
 
-	.joker {
-		height: 100px;
-		width: 100%;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		border: solid 2px white;
-		border-radius: 112px / 60%;
-		font-size: 32px;
+  .joker {
+    height: 100px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: solid 2px white;
+    border-radius: 112px / 60%;
+    font-size: 32px;
 
-		&.used::before {
-			@include cross-bar(true);
-		}
-		&.used::after {
-			@include cross-bar(false);
-		}
-	}
+    &.used::before {
+      @include cross-bar(true);
+    }
+    &.used::after {
+      @include cross-bar(false);
+    }
+  }
 
-	.pyramid {
-		color: orange;
-	}
+  .pyramid {
+    color: orange;
+  }
 
-	.earning-line-wrapper {
-		padding: 8px 16px;
-		font-size: 24px;
+  .earning-line-wrapper {
+    padding: 8px 16px;
+    font-size: 24px;
 
-		&.selected {
-			color: black;
-			background-color: orange;
-		}
+    &.selected {
+      color: black;
+      background-color: orange;
+    }
 
-		&.validated {
-			color: white;
-		}
-	}
+    &.validated {
+      color: white;
+    }
+  }
 
-	.public-container {
-		height: calc(100% - 160px);
-		padding: 16px 0;
+  .public-container {
+    height: calc(100% - 160px);
+    padding: 16px 0;
 
-		.bar {
-			background-color: orange;
-			width: 90%;
-		}
-	}
+    .bar {
+      background-color: orange;
+      width: 90%;
+    }
+  }
 }

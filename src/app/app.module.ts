@@ -18,23 +18,21 @@ import { AppRoutingModule } from './app-routing.module';
 registerLocaleData(localeFr);
 
 @NgModule({
-	imports: [
-		BrowserModule,
-		FormsModule,
-		HttpClientModule,
-		TranslateModule.forRoot(),
-		NgbModule,
-		CoreModule,
-		SharedModule,
-		ShellModule,
-		HomeModule,
-		AboutModule,
-		AppRoutingModule, // must be imported as the last module as it contains the fallback route
-	],
-	declarations: [AppComponent],
-	providers: [
-		{ provide: LOCALE_ID, useValue: 'fr-FR'}
-	],
-	bootstrap: [AppComponent],
+  imports: [
+    BrowserModule,
+    FormsModule,
+    HttpClientModule,
+    TranslateModule.forRoot(),
+    NgbModule,
+    CoreModule,
+    SharedModule,
+    ShellModule,
+    HomeModule,
+    AboutModule,
+    AppRoutingModule, // must be imported as the last module as it contains the fallback route
+  ],
+  declarations: [AppComponent],
+  providers: [{ provide: LOCALE_ID, useValue: 'fr-FR' }],
+  bootstrap: [AppComponent],
 })
 export class AppModule {}

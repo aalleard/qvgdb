@@ -5,336 +5,333 @@ import { Question } from '@app/@shared/models/question';
 import { AppService } from '@app/@core/services/app.service';
 import { Router } from '@angular/router';
 
-
 export interface IEarning {
-	earning: number;
-	number: number;
+  earning: number;
+  number: number;
 }
 
 @Component({
-	selector: 'app-home',
-	templateUrl: './home.page.html',
-	styleUrls: ['./home.page.scss'],
+  selector: 'app-home',
+  templateUrl: './home.page.html',
+  styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit, OnDestroy {
-	public bJoker1: boolean = false;
-	public bJoker2: boolean = false;
-	public bJoker3: boolean = false;
-	public bShowAnswer: boolean = false;
-	public bShowEarning: boolean = false;
-	public bShowPublic: boolean = false;
-	public sSelectedAnswer: string = null
+  public bJoker1: boolean = false;
+  public bJoker2: boolean = false;
+  public bJoker3: boolean = false;
+  public bShowAnswer: boolean = false;
+  public bShowEarning: boolean = false;
+  public bShowPublic: boolean = false;
+  public sSelectedAnswer: string = null;
 
-	private _aEarnings: IEarning[] = [];
-	private _aFibonacci: number[] = [1, 2, 5, 10, 20, 50, 100, 200]
-	private _aQuestions: Question[] = [];
-	private _bCorrectAnswer: boolean = false;
-	private _bQuit: boolean = false;
-	private _iCorrect: number = 0;
-	private _oQuestion: Question = null;
-	
-	constructor(private oRouter: Router, private appService: AppService, private questionService: QuestionService) {}
+  private _aEarnings: IEarning[] = [];
+  private _aFibonacci: number[] = [1, 2, 5, 10, 20, 50, 100, 200];
+  private _aQuestions: Question[] = [];
+  private _bCorrectAnswer: boolean = false;
+  private _bQuit: boolean = false;
+  private _iCorrect: number = 0;
+  private _oQuestion: Question = null;
 
-	ngOnInit() {
-		this.questionService.fetchQuestions$()
-			.subscribe(aQuestions => {
-				this.aQuestions = aQuestions;
-				this._buildEarnings();
-				this._nextQuestion();
-			});
-	}
+  constructor(private oRouter: Router, private appService: AppService, private questionService: QuestionService) {}
 
-	ngOnDestroy() {
-		if (!this._bQuit) {
-			this.appService.pauseAllSounds();
-		}
-	}
+  ngOnInit() {
+    this.questionService.fetchQuestions$().subscribe((aQuestions) => {
+      this.aQuestions = aQuestions;
+      this._buildEarnings();
+      this._nextQuestion();
+    });
+  }
 
-	private _5050(): void {
-		this.appService.pauseSound(this.oQuestion.musique);
-		this.oQuestion.perform5050();	
-		let fCallback = (function () {
-			setTimeout(() => {
-				this.appService.resumeSound(this.oQuestion.musique);
-			}, 500);
-		}).bind(this);
-		this.appService.playSound('joker_50-50', fCallback);
-		this.bJoker1 = true;
-	}
+  ngOnDestroy() {
+    if (!this._bQuit) {
+      this.appService.pauseAllSounds();
+    }
+  }
 
-	public get aEarnings(): IEarning[] {
-		return this._aEarnings;
-	}
+  private _5050(): void {
+    this.appService.pauseSound(this.oQuestion.musique);
+    this.oQuestion.perform5050();
+    let fCallback = function () {
+      setTimeout(() => {
+        this.appService.resumeSound(this.oQuestion.musique);
+      }, 500);
+    }.bind(this);
+    this.appService.playSound('joker_50-50', fCallback);
+    this.bJoker1 = true;
+  }
 
-	public get aQuestions(): Question[] {
-		return this._aQuestions;
-	}
+  public get aEarnings(): IEarning[] {
+    return this._aEarnings;
+  }
 
-	public set aQuestions(aQuestions: Question[]) {
-		this._aQuestions = [].concat(aQuestions);
-	}
+  public get aQuestions(): Question[] {
+    return this._aQuestions;
+  }
 
-	private _buildEarnings(): void {
-		this._aEarnings = [];
-		for (let i=0; i<this._aQuestions.length; i++) {
-			let oEarning: IEarning = {
-				earning: this._aFibonacci[i],
-				number: i+1
-			}
-			this._aEarnings.push(oEarning);
-		}
-	}
+  public set aQuestions(aQuestions: Question[]) {
+    this._aQuestions = [].concat(aQuestions);
+  }
 
-	private _endGame(): void {
-		this.bShowEarning = true;
-		this.appService.playSound('end_jingle');
-	}
+  private _buildEarnings(): void {
+    this._aEarnings = [];
+    for (let i = 0; i < this._aQuestions.length; i++) {
+      let oEarning: IEarning = {
+        earning: this._aFibonacci[i],
+        number: i + 1,
+      };
+      this._aEarnings.push(oEarning);
+    }
+  }
 
-	public getAnswerClass(sAnswer: string): string {
-		// No answer selected
-		if (!this.sSelectedAnswer) {
-			return null;
-		} 
-		
-		if (this.bShowAnswer) {
-			// Show correct answer
-			
-			// The answer is correct
-			if (this.oQuestion.reponse === sAnswer) {
-				return 'correct';
-			} else {
-				// The answer is not correct {}
-				if (this.sSelectedAnswer === sAnswer) {
-					return 'incorrect';
-				} else {
-					return null;
-				}
-			}
+  private _endGame(): void {
+    this.bShowEarning = true;
+    this.appService.playSound('end_jingle');
+  }
 
-		} else {
-			// Show selected answer
-			if (this.sSelectedAnswer === sAnswer) {
-				return 'selected';
-			}
-		}
-	}
+  public getAnswerClass(sAnswer: string): string {
+    // No answer selected
+    if (!this.sSelectedAnswer) {
+      return null;
+    }
 
-	public getEarningClass(iIndex: number): string {
-		if (iIndex === this._iCorrect) {
-			return 'selected';
-		} 
+    if (this.bShowAnswer) {
+      // Show correct answer
 
-		if (iIndex < this._iCorrect) {
-			return 'validated';
-		}
+      // The answer is correct
+      if (this.oQuestion.reponse === sAnswer) {
+        return 'correct';
+      } else {
+        // The answer is not correct {}
+        if (this.sSelectedAnswer === sAnswer) {
+          return 'incorrect';
+        } else {
+          return null;
+        }
+      }
+    } else {
+      // Show selected answer
+      if (this.sSelectedAnswer === sAnswer) {
+        return 'selected';
+      }
+    }
+  }
 
-		return null;
-	}
+  public getEarningClass(iIndex: number): string {
+    if (iIndex === this._iCorrect) {
+      return 'selected';
+    }
 
-	private _handleKeyEvent(oEvent: any) {
-		let sCharCode = String.fromCharCode(oEvent.which).toLowerCase();
-		console.log(sCharCode);
-		console.log(oEvent.which);
-		if (sCharCode === 'a') {
-			this._selectAnswer('A');
-			oEvent.preventDefault();
-		} 
-		if (sCharCode === 'b') {
-			this._selectAnswer('B');
-			oEvent.preventDefault();
-		} 
-		if (sCharCode === 'c') {
-			this._selectAnswer('C');
-			oEvent.preventDefault();
-		} 
-		if (sCharCode === 'd') {
-			this._selectAnswer('D');
-			oEvent.preventDefault();
-		} 
-		if (sCharCode === 'g') {
-			this._quitGame();
-			oEvent.preventDefault();
-		} 
-		if (sCharCode === '1') {
-			this._5050();
-			oEvent.preventDefault();
-		} 
-		if (sCharCode === '2') {
-			this._phoneAFriend();
-			oEvent.preventDefault();
-		} 
-		if (sCharCode === '3') {
-			this._publicVote();
-			oEvent.preventDefault();
-		} 
-		if (sCharCode === '\r') {
-			this._showAnswer();
-			oEvent.preventDefault();
-		} 
-	}
+    if (iIndex < this._iCorrect) {
+      return 'validated';
+    }
 
-	/**
-	 * Handler for keyboard input on a MacOS device
-	 * @param oEvent Key event
-	 */
-	protected _handleMacKeyEvents(oEvent: any) {
-		// All actions must be done with ctrl key
-		if (!oEvent.metaKey) return;
+    return null;
+  }
 
-		this._handleKeyEvent(oEvent);
-	}
+  private _handleKeyEvent(oEvent: any) {
+    let sCharCode = String.fromCharCode(oEvent.which).toLowerCase();
+    console.log(sCharCode);
+    console.log(oEvent.which);
+    if (sCharCode === 'a') {
+      this._selectAnswer('A');
+      oEvent.preventDefault();
+    }
+    if (sCharCode === 'b') {
+      this._selectAnswer('B');
+      oEvent.preventDefault();
+    }
+    if (sCharCode === 'c') {
+      this._selectAnswer('C');
+      oEvent.preventDefault();
+    }
+    if (sCharCode === 'd') {
+      this._selectAnswer('D');
+      oEvent.preventDefault();
+    }
+    if (sCharCode === 'g') {
+      this._quitGame();
+      oEvent.preventDefault();
+    }
+    if (sCharCode === '1') {
+      this._5050();
+      oEvent.preventDefault();
+    }
+    if (sCharCode === '2') {
+      this._phoneAFriend();
+      oEvent.preventDefault();
+    }
+    if (sCharCode === '3') {
+      this._publicVote();
+      oEvent.preventDefault();
+    }
+    if (sCharCode === '\r') {
+      this._showAnswer();
+      oEvent.preventDefault();
+    }
+  }
 
-	/**
-	 * Handler for keyboard input on a Windows device
-	 * @param oEvent Key event
-	 */
-	protected _handleWindowsKeyEvents(oEvent: any) {
-		// All actions must be done with ctrl key
-		if (!oEvent.ctrlKey) return;
+  /**
+   * Handler for keyboard input on a MacOS device
+   * @param oEvent Key event
+   */
+  protected _handleMacKeyEvents(oEvent: any) {
+    // All actions must be done with ctrl key
+    if (!oEvent.metaKey) return;
 
-		this._handleKeyEvent(oEvent);
-	}
+    this._handleKeyEvent(oEvent);
+  }
 
-	private _nextQuestion(): void {
-		this._bCorrectAnswer = false;
-		this.bShowAnswer = false;
-		this.bShowEarning = false;
-		this.bShowPublic = false;
-		this.sSelectedAnswer = null
-		if (this.aQuestions.length) {
-			this.oQuestion = this.aQuestions.shift();
-			this.appService.playSound(this.oQuestion.musique);
-		} else {
-			this._endGame();
-		}
-	}
+  /**
+   * Handler for keyboard input on a Windows device
+   * @param oEvent Key event
+   */
+  protected _handleWindowsKeyEvents(oEvent: any) {
+    // All actions must be done with ctrl key
+    if (!oEvent.ctrlKey) return;
 
-	public onClick5050(): void {
-		if (!this.bJoker1) {
-			this._5050();
-		}
-	}
+    this._handleKeyEvent(oEvent);
+  }
 
-	public onClickAnswer(sAnswer: string): void {
-		this._selectAnswer(sAnswer);
-	}
+  private _nextQuestion(): void {
+    this._bCorrectAnswer = false;
+    this.bShowAnswer = false;
+    this.bShowEarning = false;
+    this.bShowPublic = false;
+    this.sSelectedAnswer = null;
+    if (this.aQuestions.length) {
+      this.oQuestion = this.aQuestions.shift();
+      this.appService.playSound(this.oQuestion.musique);
+    } else {
+      this._endGame();
+    }
+  }
 
-	public onClickNextQuestion(): void {
-		this._nextQuestion();
-	}
+  public onClick5050(): void {
+    if (!this.bJoker1) {
+      this._5050();
+    }
+  }
 
-	public onClickPhone(): void {
-		if (!this.bJoker2) {
-			this._phoneAFriend();
-		}
-	}
+  public onClickAnswer(sAnswer: string): void {
+    this._selectAnswer(sAnswer);
+  }
 
-	public onClickPublic(): void {
-		if (!this.bJoker3) {
-			this._publicVote();
-		}
-	}
+  public onClickNextQuestion(): void {
+    this._nextQuestion();
+  }
 
-	public onClickShowAnswer(): void {
-		this._showAnswer();
-	}
+  public onClickPhone(): void {
+    if (!this.bJoker2) {
+      this._phoneAFriend();
+    }
+  }
 
-	/**
-	 * Event that catches every key strokes
-	 * @param oEvent
-	 */
-	@HostListener('document:keydown', ['$event'])
-	public onKeyDown(oEvent: any) {
-		// Detect platform
-		if (navigator.platform.match('Mac')) {
-			this._handleMacKeyEvents(oEvent);
-		} else {
-			this._handleWindowsKeyEvents(oEvent);
-		}
-	}
+  public onClickPublic(): void {
+    if (!this.bJoker3) {
+      this._publicVote();
+    }
+  }
 
-	public get oQuestion(): Question {
-		return this._oQuestion;
-	}
+  public onClickShowAnswer(): void {
+    this._showAnswer();
+  }
 
-	public set oQuestion(oQuestion: Question) {
-		this._oQuestion = oQuestion;
-	}
+  /**
+   * Event that catches every key strokes
+   * @param oEvent
+   */
+  @HostListener('document:keydown', ['$event'])
+  public onKeyDown(oEvent: any) {
+    // Detect platform
+    if (navigator.platform.match('Mac')) {
+      this._handleMacKeyEvents(oEvent);
+    } else {
+      this._handleWindowsKeyEvents(oEvent);
+    }
+  }
 
-	private _phoneAFriend(): void {
-		this.appService.pauseSound(this.oQuestion.musique);
-		let fCallback = (function () {
-			setTimeout(() => {
-				this.appService.resumeSound(this.oQuestion.musique);
-			}, 500);
-		}).bind(this);
-		this.appService.playSound('telephone', fCallback);
-		this.bJoker2 = true;
-	}
+  public get oQuestion(): Question {
+    return this._oQuestion;
+  }
 
-	private _publicVote(): void {
-		this.appService.pauseSound(this.oQuestion.musique);
-		let fCallback = (function () {
-			setTimeout(() => {
-				this.appService.resumeSound(this.oQuestion.musique);
-			}, 500);
-		}).bind(this);
-		this.appService.playSound('public_vote', fCallback);
-		setTimeout(() => {
-			this.bShowPublic = true;
-		}, 32000);
-		this.bJoker3 = true;
-	}
+  public set oQuestion(oQuestion: Question) {
+    this._oQuestion = oQuestion;
+  }
 
-	private _quitGame() {
-		this._bQuit = true;
-		this.appService.pauseAllSounds();
-		this.appService.playSound('end_theme');
-		this.oRouter.navigate(['splash']);
-	}
+  private _phoneAFriend(): void {
+    this.appService.pauseSound(this.oQuestion.musique);
+    let fCallback = function () {
+      setTimeout(() => {
+        this.appService.resumeSound(this.oQuestion.musique);
+      }, 500);
+    }.bind(this);
+    this.appService.playSound('telephone', fCallback);
+    this.bJoker2 = true;
+  }
 
-	public get sEarning(): string {
-		let iEarning = !!this._aFibonacci[this._iCorrect - 1] ? this._aFibonacci[this._iCorrect - 1] : 0;
-		let sLabel = iEarning > 1 ? " bonbons" : " bonbon";
+  private _publicVote(): void {
+    this.appService.pauseSound(this.oQuestion.musique);
+    let fCallback = function () {
+      setTimeout(() => {
+        this.appService.resumeSound(this.oQuestion.musique);
+      }, 500);
+    }.bind(this);
+    this.appService.playSound('public_vote', fCallback);
+    setTimeout(() => {
+      this.bShowPublic = true;
+    }, 32000);
+    this.bJoker3 = true;
+  }
 
-		return iEarning.toString() + sLabel;
-	}
+  private _quitGame() {
+    this._bQuit = true;
+    this.appService.pauseAllSounds();
+    this.appService.playSound('end_theme');
+    this.oRouter.navigate(['splash']);
+  }
 
-	private _selectAnswer(sAnswer: string): void {
-		this.sSelectedAnswer = sAnswer;
-		if (!this.oQuestion.dernierMot) {
-			setTimeout(() => {
-				this._showAnswer();
-			}, 1000);
-		} else {
-			this.appService.playSound('final_answer');
-			this.appService.pauseSound(this.oQuestion.musique);
-		}
-	}
+  public get sEarning(): string {
+    let iEarning = !!this._aFibonacci[this._iCorrect - 1] ? this._aFibonacci[this._iCorrect - 1] : 0;
+    let sLabel = iEarning > 1 ? ' bonbons' : ' bonbon';
 
-	private _showAnswer() {
-		this.bShowAnswer = true;
-		if (this.oQuestion.reponse === this.sSelectedAnswer) {
-			this._bCorrectAnswer = true;
-			this.appService.playSound('correct_answer');
-		} else {
-			this._bCorrectAnswer = false;
-			this.appService.playSound('wrong_answer');
-		}
-		this.appService.pauseSound('final_answer');
-		this.appService.pauseSound(this.oQuestion.musique);
-		setTimeout(() => {
-			this._showEarnings();
-		}, 2000);
-	}
+    return iEarning.toString() + sLabel;
+  }
 
-	private _showEarnings() {
-		if (this._bCorrectAnswer) {
-			this._iCorrect++;
-		}
-		this.bShowEarning = true;
-		setTimeout(() => {
-			this._nextQuestion();
-		}, 5000);
-	}
+  private _selectAnswer(sAnswer: string): void {
+    this.sSelectedAnswer = sAnswer;
+    if (!this.oQuestion.dernierMot) {
+      setTimeout(() => {
+        this._showAnswer();
+      }, 1000);
+    } else {
+      this.appService.playSound('final_answer');
+      this.appService.pauseSound(this.oQuestion.musique);
+    }
+  }
+
+  private _showAnswer() {
+    this.bShowAnswer = true;
+    if (this.oQuestion.reponse === this.sSelectedAnswer) {
+      this._bCorrectAnswer = true;
+      this.appService.playSound('correct_answer');
+    } else {
+      this._bCorrectAnswer = false;
+      this.appService.playSound('wrong_answer');
+    }
+    this.appService.pauseSound('final_answer');
+    this.appService.pauseSound(this.oQuestion.musique);
+    setTimeout(() => {
+      this._showEarnings();
+    }, 2000);
+  }
+
+  private _showEarnings() {
+    if (this._bCorrectAnswer) {
+      this._iCorrect++;
+    }
+    this.bShowEarning = true;
+    setTimeout(() => {
+      this._nextQuestion();
+    }, 5000);
+  }
 }

@@ -1,5 +1,5 @@
 export interface ISorter {
-	bDescending?: boolean;
-	bEmptyFirst?: boolean;
-	sProperty: string;
+  bDescending?: boolean;
+  bEmptyFirst?: boolean;
+  sProperty: string;
 }

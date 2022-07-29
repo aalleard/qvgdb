@@ -1,4 +1,4 @@
 export interface IMergeOption {
-	bKeepSelection?: boolean;
-	bNewReference?: boolean;
+  bKeepSelection?: boolean;
+  bNewReference?: boolean;
 }
