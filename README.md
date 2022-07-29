@@ -14,7 +14,7 @@ npm install
 2. Launch development server, and open `localhost:4200` in your browser:
 
 ```sh
-npm local
+npm run local
 ```
 
 # Project structure
