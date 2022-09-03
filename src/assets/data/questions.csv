@@ -1,9 +1,9 @@
 id;question;reponseA;reponseB;reponseC;reponseD;reponse;cinquanteCinquante;publicA;publicB;publicC;publicD;appelAmi;appelReponse;musique;dernierMot;gain;dummy
 1;Edouard : Quel village est située entre Guérande et Mesquer ?;Mirouksse;Miroux;Miblond;Mibrun;B;A;1;97;1;1;;;0000100_0001000;;1 bonbon;
 2;Aline : Quelle commune est située en Bretagne ?;Loctudy;Loctudail;Loctudoignon;Loctudechalote;A;C;62;12;21;5;;;0000100_0001000;;2 bonbons :);
-3;Edouard : Quelle est tenue préferée pour passer la tondeuse ?;Bottes et salopette;Mocassins et chemise blanche;Tongs et maillot de bain;Escarpins et tanga;B;D;52;30;10;8;;;0002000_0032000;X;5 bonbons;
-4;"Aline : ";I;;;;D;C;1;1;6;92;;;0002000_0032000;X;10 bonbons;
+3;Edouard : Quelle est ta tenue préferée pour passer la tondeuse ?;Bottes et salopette;Mocassins et chemise blanche;Tongs et maillot de bain;Escarpins et tanga;B;D;52;30;10;8;;;0002000_0032000;X;5 bonbons;
+4;Aline : Quel a été le nom de son premier animal de compagnie ?;Don Saluz;Don Papa;Don Quichotte;Don Desang;A;C;1;1;6;92;;;0002000_0032000;X;10 bonbons;
 5;Edouard : Pendant l'adolescence d'Aline, qui était affiché dans sa chambre ?;Coluche;Zinedine Zidane;Zazie;Cristiano Ronaldo;D;A;31;13;33;23;;;0125000_0250000;X;20 bonbons;
-6;"Aline : ";;;;;B;C;25;25;25;25;;;0125000_0250000;X;50 bonbons;
+6;Aline : Quel est le premier sport qu'a pratiqué Edouard ?;Judo;Hockey sur glace;Gymnastique;"Patinage artistique ";B;C;25;25;25;25;;;0125000_0250000;X;50 bonbons;
 7;Edouard : Quel monstre fait peur à Aline, si bien qu'elle est partie en courant d'une maison hantée ?;Une petite fille avec une perruque;Un chien sans dent;Un moustique géant;Une banane volante;A;B;72;2;13;13;;;1000000;X;100 bonbons;
-8;"Aline : Quel est le repas qu'Edouard a le plus apprécié pendant son EVG ? ";du homard Athon;du homard Buzet;" du Haut Marbuzet";du homard Akech;C;C;0;0;34;66;;;1000000;X;200 bonbons;
+8;"Aline : Quel est le repas qu'Edouard a le plus apprécié pendant son EVG ? ";du homard Athon;du homard Buzet;du Haut Marbuzet;du homard Akech;C;C;0;0;34;66;;;1000000;X;200 bonbons;
